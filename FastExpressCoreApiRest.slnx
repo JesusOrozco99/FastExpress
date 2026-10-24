@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="CoreApiRest.BusinessRules/CoreApiRest.BusinessRules.csproj" />
+  <Project Path="CoreApiRest.Controllers/CoreApiRest.Controllers.csproj" />
+  <Project Path="CoreApiRest.IOC/CoreApiRest.IOC.csproj" />
+  <Project Path="CoreApiRest.OutputPorts/CoreApiRest.OutputPorts.csproj" />
+  <Project Path="CoreApiRest.Repositories/CoreApiRest.Repositories.csproj" />
+  <Project Path="CoreApiRest.Tests/CoreApiRest.Tests.csproj" />
+  <Project Path="CoreApiRest.UseCases/CoreApiRest.UseCases.csproj" />
+  <Project Path="CoreApiRest/CoreApiRest.csproj" />
+</Solution>

@@ -1,0 +1,31 @@
+@host = http://localhost:5160
+
+### 1. Caso Exitoso (200 OK) - Reglas BR-02, BR-03, BR-04 válidas
+POST {{host}}/api/v1/quotes/calculate
+Content-Type: application/json
+
+{
+  "peso": 5.5,
+  "tipoCliente": "Corporativo",
+  "tipoEnvio": "Express"
+}
+
+### 2. Error de Negocio (422 Unprocessable Entity) - Regla BR-02 (Peso > 20kg)
+POST {{host}}/api/v1/quotes/calculate
+Content-Type: application/json
+
+{
+  "peso": 22.5,
+  "tipoCliente": "Regular",
+  "tipoEnvio": "Estandar"
+}
+
+### 3. Error Sintáctico / Validación DTO (400 Bad Request) - Payload inválido
+POST {{host}}/api/v1/quotes/calculate
+Content-Type: application/json
+
+{
+  "peso": -5.0,
+  "tipoCliente": "",
+  "tipoEnvio": null
+}

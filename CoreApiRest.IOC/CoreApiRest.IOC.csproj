@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoreApiRest.BusinessRules\CoreApiRest.BusinessRules.csproj" />
+    <ProjectReference Include="..\CoreApiRest.UseCases\CoreApiRest.UseCases.csproj" />
+    <ProjectReference Include="..\CoreApiRest.OutputPorts\CoreApiRest.OutputPorts.csproj" />
+    <ProjectReference Include="..\CoreApiRest.Repositories\CoreApiRest.Repositories.csproj" />
+    <ProjectReference Include="..\CoreApiRest.Controllers\CoreApiRest.Controllers.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
