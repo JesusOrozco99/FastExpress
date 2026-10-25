@@ -17,7 +17,7 @@ public class CalcularCotizacionRequestTests
         var request = new CalcularCotizacionRequest
         {
             Peso = (decimal)peso,
-            TipoCliente = TipoCliente.Regular,
+            TipoCliente = TipoCliente.Nuevo,
             TipoEnvio = TipoEnvio.Estandar
         };
 
@@ -63,7 +63,7 @@ public class CalcularCotizacionRequestTests
         var request = new CalcularCotizacionRequest
         {
             Peso = 5m,
-            TipoCliente = TipoCliente.Corporativo,
+            TipoCliente = TipoCliente.Frecuente,
             TipoEnvio = (TipoEnvio)99
         };
         var resultados = new List<ValidationResult>();

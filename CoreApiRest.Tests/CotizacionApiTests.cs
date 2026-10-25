@@ -29,9 +29,9 @@ public class CotizacionApiTests : IClassFixture<WebApplicationFactory<Program>>
     public static TheoryData<decimal, HttpStatusCode, decimal?> ValoresLimite => new()
     {
         { 0m, HttpStatusCode.UnprocessableEntity, null },
-        { 0.01m, HttpStatusCode.OK, 0.05m },
-        { 5.0m, HttpStatusCode.OK, 25.00m },
-        { 20.0m, HttpStatusCode.OK, 100.00m },
+        { 0.01m, HttpStatusCode.OK, 5.02m },
+        { 5.0m, HttpStatusCode.OK, 15.00m },
+        { 20.0m, HttpStatusCode.OK, 85.00m },
         { 20.01m, HttpStatusCode.UnprocessableEntity, null }
     };
 
@@ -42,7 +42,7 @@ public class CotizacionApiTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await _client.PostAsJsonAsync("/api/v1/quotes/calculate", new
         {
             peso,
-            tipoCliente = "Regular",
+            tipoCliente = "Nuevo",
             tipoEnvio = "Estandar"
         });
 
@@ -59,14 +59,14 @@ public class CotizacionApiTests : IClassFixture<WebApplicationFactory<Program>>
         var body = await response.Content.ReadFromJsonAsync<CalcularCotizacionResponse>(JsonOptions);
         Assert.NotNull(body);
         Assert.Equal(tarifaFinal, body.TarifaFinal);
-        Assert.Equal("Regular", body.TipoCliente);
+        Assert.Equal("Nuevo", body.TipoCliente);
         Assert.Equal("Estandar", body.TipoEnvio);
     }
 
     [Theory]
-    [InlineData("Corporativo", "Express", 33.75)]
-    [InlineData("VIP", "Estandar", 20.00)]
-    [InlineData("VIP", "Express", 30.00)]
+    [InlineData("Frecuente", "Express", 16.88)]
+    [InlineData("VIP", "Estandar", 12.00)]
+    [InlineData("VIP", "Express", 15.00)]
     public async Task Calculate_CombinacionesDeClienteYEnvio_Retorna200(string tipoCliente, string tipoEnvio, decimal tarifaFinal)
     {
         var response = await _client.PostAsJsonAsync("/api/v1/quotes/calculate", new
@@ -88,9 +88,9 @@ public class CotizacionApiTests : IClassFixture<WebApplicationFactory<Program>>
     [InlineData("{")]
     [InlineData("")]
     [InlineData("{}")]
-    [InlineData("{\"peso\":\"abc\",\"tipoCliente\":\"Regular\",\"tipoEnvio\":\"Estandar\"}")]
+    [InlineData("{\"peso\":\"abc\",\"tipoCliente\":\"Nuevo\",\"tipoEnvio\":\"Estandar\"}")]
     [InlineData("{\"peso\":5,\"tipoCliente\":\"Desconocido\",\"tipoEnvio\":\"Estandar\"}")]
-    [InlineData("{\"peso\":5,\"tipoCliente\":\"Regular\",\"tipoEnvio\":\"Urgente\"}")]
+    [InlineData("{\"peso\":5,\"tipoCliente\":\"Nuevo\",\"tipoEnvio\":\"Urgente\"}")]
     [InlineData("{\"peso\":5,\"tipoCliente\":99,\"tipoEnvio\":\"Estandar\"}")]
     public async Task Calculate_CuandoElJsonTieneErroresDeFormato_Retorna400(string json)
     {

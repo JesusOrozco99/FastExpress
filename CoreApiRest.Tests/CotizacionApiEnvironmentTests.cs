@@ -21,7 +21,7 @@ public class CotizacionApiEnvironmentTests
         var response = await client.PostAsJsonAsync("/api/v1/quotes/calculate", new
         {
             peso = 20.01m,
-            tipoCliente = "Regular",
+            tipoCliente = "Nuevo",
             tipoEnvio = "Express"
         });
 

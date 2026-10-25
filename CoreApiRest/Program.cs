@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // Permite deserializar Enums desde strings ("Corporativo", "Express")
+        // Permite deserializar Enums desde strings ("Frecuente", "Express")
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 builder.Services.AddEndpointsApiExplorer();

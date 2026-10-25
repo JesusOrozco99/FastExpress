@@ -23,7 +23,7 @@ public static class CotizacionErrors
         new(SolicitudInvalida, "El tipo de envío es obligatorio.", ErrorType.Validation);
 
     public static Error ClienteNoSoportado() =>
-        new(TipoClienteNoSoportado, "El tipo de cliente no está soportado. Valores permitidos: Regular, Corporativo, VIP.", ErrorType.BusinessRule);
+        new(TipoClienteNoSoportado, "El tipo de cliente no está soportado. Valores permitidos: Nuevo, Frecuente, VIP.", ErrorType.BusinessRule);
 
     public static Error EnvioNoSoportado() =>
         new(TipoEnvioNoSoportado, "El tipo de envío no está soportado. Valores permitidos: Estandar, Express.", ErrorType.BusinessRule);

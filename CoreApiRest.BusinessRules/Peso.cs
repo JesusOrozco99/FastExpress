@@ -5,6 +5,7 @@ namespace CoreApiRest.BusinessRules;
 
 /// <summary>
 /// Peso del paquete en kilogramos. BR-02: el valor debe ser mayor a 0 kg y menor o igual a 20.00 kg.
+/// De 0.01 a 5.00 kg la tarifa por kilo es 2.00 USD; de 5.01 a 20.00 kg es 4.00 USD.
 /// </summary>
 public sealed class Peso
 {

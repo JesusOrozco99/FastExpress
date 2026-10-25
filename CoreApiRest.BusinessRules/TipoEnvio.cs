@@ -1,8 +1,8 @@
 namespace CoreApiRest.BusinessRules;
 
 /// <summary>
-/// BR-04. Tipo de envío que multiplica la tarifa base.
-/// Estándar conserva la tarifa y Express la multiplica por 1.50.
+/// BR-04. Recargo del tipo de envío sobre el subtotal ya descontado.
+/// Estándar no recarga y Express recarga 25%.
 /// </summary>
 public enum TipoEnvio
 {

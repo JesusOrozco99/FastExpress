@@ -16,30 +16,30 @@ public class CalcularCotizacionUseCaseTests
         _useCase = new CalcularCotizacionUseCase(new TarifaCalculatorService(), _outputPort);
     }
 
-    public static TheoryData<decimal, bool, string?> ValoresLimite => new()
+    public static TheoryData<decimal, bool, decimal?> ValoresLimite => new()
     {
-        { 0m, false, CotizacionErrors.PesoFueraDeRango },
-        { 0.01m, true, null },
-        { 5.0m, true, null },
-        { 20.0m, true, null },
-        { 20.01m, false, CotizacionErrors.PesoFueraDeRango }
+        { 0m, false, null },
+        { 0.01m, true, 5.02m },
+        { 5.0m, true, 15.00m },
+        { 20.0m, true, 85.00m },
+        { 20.01m, false, null }
     };
 
     public static TheoryData<TipoCliente, TipoEnvio, decimal, decimal, decimal> Combinaciones => new()
     {
-        { TipoCliente.Regular, TipoEnvio.Estandar, 0m, 1.00m, 25.00m },
-        { TipoCliente.Regular, TipoEnvio.Express, 0m, 1.50m, 37.50m },
-        { TipoCliente.Corporativo, TipoEnvio.Estandar, 10m, 1.00m, 22.50m },
-        { TipoCliente.Corporativo, TipoEnvio.Express, 10m, 1.50m, 33.75m },
-        { TipoCliente.VIP, TipoEnvio.Estandar, 20m, 1.00m, 20.00m },
-        { TipoCliente.VIP, TipoEnvio.Express, 20m, 1.50m, 30.00m }
+        { TipoCliente.Nuevo, TipoEnvio.Estandar, 0m, 1.00m, 15.00m },
+        { TipoCliente.Nuevo, TipoEnvio.Express, 0m, 1.25m, 18.75m },
+        { TipoCliente.Frecuente, TipoEnvio.Estandar, 10m, 1.00m, 13.50m },
+        { TipoCliente.Frecuente, TipoEnvio.Express, 10m, 1.25m, 16.88m },
+        { TipoCliente.VIP, TipoEnvio.Estandar, 20m, 1.00m, 12.00m },
+        { TipoCliente.VIP, TipoEnvio.Express, 20m, 1.25m, 15.00m }
     };
 
     [Theory]
     [MemberData(nameof(ValoresLimite))]
-    public async Task Handle_AnalisisDeValoresLimite_RespetaBr02(decimal pesoKg, bool esperadoExitoso, string? codigoError)
+    public async Task Handle_AnalisisDeValoresLimite_RespetaBr02(decimal pesoKg, bool esperadoExitoso, decimal? tarifaFinal)
     {
-        var result = await Calcular(Solicitud(pesoKg, TipoCliente.Regular, TipoEnvio.Estandar));
+        var result = await Calcular(Solicitud(pesoKg, TipoCliente.Nuevo, TipoEnvio.Estandar));
 
         Assert.Equal(esperadoExitoso, result.IsSuccess);
         Assert.Equal(!esperadoExitoso, result.IsFailure);
@@ -48,13 +48,13 @@ public class CalcularCotizacionUseCaseTests
             Assert.Null(result.Error);
             Assert.NotNull(result.Value);
             Assert.Equal(pesoKg, result.Value.PesoKg);
-            Assert.Equal(pesoKg * PoliticaTarifaria.TarifaPorKilogramo, result.Value.TarifaFinal);
+            Assert.Equal(tarifaFinal, result.Value.TarifaFinal);
         }
         else
         {
             Assert.Null(result.Value);
             Assert.NotNull(result.Error);
-            Assert.Equal(codigoError, result.Error.Code);
+            Assert.Equal(CotizacionErrors.PesoFueraDeRango, result.Error.Code);
             Assert.Equal(ErrorType.BusinessRule, result.Error.Type);
             Assert.Contains("20.00 kg", result.Error.Message, StringComparison.Ordinal);
         }
@@ -75,7 +75,7 @@ public class CalcularCotizacionUseCaseTests
         Assert.NotNull(result.Value);
         Assert.Equal(tipoCliente.ToString(), result.Value.TipoCliente);
         Assert.Equal(tipoEnvio.ToString(), result.Value.TipoEnvio);
-        Assert.Equal(25.00m, result.Value.TarifaBase);
+        Assert.Equal(15.00m, result.Value.TarifaBase);
         Assert.Equal(porcentajeDescuento, result.Value.PorcentajeDescuentoCliente);
         Assert.Equal(multiplicador, result.Value.MultiplicadorEnvio);
         Assert.Equal(tarifaFinal, result.Value.TarifaFinal);
@@ -97,7 +97,7 @@ public class CalcularCotizacionUseCaseTests
     {
         var result = await Calcular(new CalcularCotizacionRequest
         {
-            TipoCliente = TipoCliente.Regular,
+            TipoCliente = TipoCliente.Nuevo,
             TipoEnvio = TipoEnvio.Estandar
         });
 
@@ -127,7 +127,7 @@ public class CalcularCotizacionUseCaseTests
         var result = await Calcular(new CalcularCotizacionRequest
         {
             Peso = 5m,
-            TipoCliente = TipoCliente.Regular
+            TipoCliente = TipoCliente.Nuevo
         });
 
         Assert.False(result.IsSuccess);

@@ -40,12 +40,12 @@ public class DependencyInjectionTests
         var result = await controlador.Calculate(new CalcularCotizacionRequest
         {
             Peso = 5.0m,
-            TipoCliente = TipoCliente.Regular,
+            TipoCliente = TipoCliente.Nuevo,
             TipoEnvio = TipoEnvio.Estandar
         });
 
         Assert.True(result.IsSuccess);
-        Assert.Equal(25.00m, result.Value!.TarifaFinal);
+        Assert.Equal(15.00m, result.Value!.TarifaFinal);
         Assert.Same(result, primerPuerto.Result);
     }
 

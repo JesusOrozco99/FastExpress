@@ -5,9 +5,9 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "peso": 5.0,
-  "tipoCliente": "Regular",
-  "tipoEnvio": "Estandar"
+  "peso": 1.0,
+  "tipoCliente": "VIP",
+  "tipoEnvio": "Express"
 }
 
 ###
@@ -18,36 +18,18 @@ Accept: application/json
 
 {
   "peso": 20.01,
-  "tipoCliente": "VIP",
-  "tipoEnvio": "Express"
-}
-
-### 1. Caso Exitoso (200 OK) - Reglas BR-02, BR-03, BR-04 válidas
-POST {{CoreApiRest_HostAddress}}/api/v1/quotes/calculate
-Content-Type: application/json
-
-{
-  "peso": 5.5,
-  "tipoCliente": "Corporativo",
-  "tipoEnvio": "Express"
-}
-
-### 2. Error de Negocio (422 Unprocessable Entity) - Regla BR-02 (Peso > 20kg)
-POST {{CoreApiRest_HostAddress}}/api/v1/quotes/calculate
-Content-Type: application/json
-
-{
-  "peso": 22.5,
-  "tipoCliente": "Regular",
+  "tipoCliente": "Nuevo",
   "tipoEnvio": "Estandar"
 }
 
-### 3. Error Sintáctico / Validación DTO (400 Bad Request) - Payload inválido
+###
+
 POST {{CoreApiRest_HostAddress}}/api/v1/quotes/calculate
 Content-Type: application/json
+Accept: application/json
 
 {
-  "peso": -5.0,
-  "tipoCliente": "",
-  "tipoEnvio": null
+  "peso": 5.5,
+  "tipoCliente": "Frecuente",
+  "tipoEnvio": "Express"
 }
